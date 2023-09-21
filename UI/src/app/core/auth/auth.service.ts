@@ -3,11 +3,19 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
+import { LoginModel } from 'app/pages/auth/login/models/login.model';
+import { environment } from '../../../enviroments/environment';
+import { BaseRequestModel } from '../models/request/base.request.model';
+import { BaseResponseModel } from '../models/response/base.response.model';
 
 @Injectable()
 export class AuthService
 {
     private _authenticated: boolean = false;
+
+    private readonly URLS = {
+        baseLogin: "login"
+    };
 
     /**
      * Constructor
@@ -65,7 +73,33 @@ export class AuthService
      *
      * @param credentials
      */
-    signIn(credentials: { email: string; password: string }): Observable<any>
+    // signIn(credentials: { email: string; password: string }): Observable<any>
+    // {
+    //     // Throw error, if the user is already logged in
+    //     if ( this._authenticated )
+    //     {
+    //         return throwError('User is already logged in.');
+    //     }
+
+    //     return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+    //         switchMap((response: any) => {
+
+    //             // Store the access token in the local storage
+    //             this.accessToken = response.accessToken;
+
+    //             // Set the authenticated flag to true
+    //             this._authenticated = true;
+
+    //             // Store the user on the user service
+    //             this._userService.user = response.user;
+
+    //             // Return a new observable with the response
+    //             return of(response);
+    //         })
+    //     );
+    // }
+
+    signIn(loginModel: LoginModel): Observable<BaseResponseModel<LoginModel>>
     {
         // Throw error, if the user is already logged in
         if ( this._authenticated )
@@ -73,23 +107,35 @@ export class AuthService
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
-            switchMap((response: any) => {
+        return this._httpClient.post(`${environment.urlApi}${this.URLS.baseLogin}`, this.baseRequest<LoginModel>(loginModel)).pipe(
+            switchMap((response: BaseResponseModel<LoginModel>) => {
 
                 // Store the access token in the local storage
-                this.accessToken = response.accessToken;
+                this.accessToken = response.data.token;
 
                 // Set the authenticated flag to true
                 this._authenticated = true;
 
                 // Store the user on the user service
-                this._userService.user = response.user;
+                this._userService.user = {
+                    id    : response.data.id,
+                    name  : `User: ${response.data.login}`,
+                    email : '',
+                    avatar: 'assets/images/avatars/brian-hughes.jpg',
+                    status: 'online'
+                };
 
                 // Return a new observable with the response
                 return of(response);
             })
         );
     }
+
+    private baseRequest<T>(parameters: T): BaseRequestModel<T> {
+        const base = new BaseRequestModel<T>();
+        base.data = parameters;
+        return base;
+      }
 
     /**
      * Sign in using the access token

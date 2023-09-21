@@ -29,15 +29,15 @@ namespace Vericode.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(UserRequest userRequest)
         {
-            string token = string.Empty;
+            var response = new BaseResponse<UserEntity>(new UserEntity());
             var userEntity = _mapper.Map<UserEntity>(userRequest.Data);
             var userRepository = await _loginService.Login(userEntity);
 
-            if (userRepository != null) token = _jwtBearerToken.GenerateToken(userRepository);
+            if (userRepository == null) return Ok(response);
 
-            var response = new UserResponse(new { Token = token });
-
-            return await Task.FromResult(Ok(response));
+            userRepository.Token = _jwtBearerToken.GenerateToken(userRepository);
+            response.Data = userRepository;
+            return Ok(response);
         }
     }
 }

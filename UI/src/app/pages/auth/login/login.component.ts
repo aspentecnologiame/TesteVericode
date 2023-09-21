@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import { LoginService } from './login.service';
 
 @Component({
     selector     : 'login',
@@ -28,10 +29,12 @@ export class LoginComponent implements OnInit
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService,
+        private _loginService: LoginService,
         private _formBuilder: UntypedFormBuilder,
         private _router: Router
     )
     {
+        localStorage.removeItem('accessToken');
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -45,9 +48,8 @@ export class LoginComponent implements OnInit
     {
         // Create the form
         this.signInForm = this._formBuilder.group({
-            email     : ['marcao@company.com', [Validators.required, Validators.email]],
-            password  : ['admin', Validators.required],
-            rememberMe: ['']
+            login     : ['admin', [Validators.required]],
+            password  : ['dev@2023', Validators.required]
         });
     }
 
@@ -74,36 +76,52 @@ export class LoginComponent implements OnInit
 
         // Sign in
         this._authService.signIn(this.signInForm.value)
-            .subscribe(
-                () => {
+        .subscribe({
+            next: (response) => {
 
-                    // Set the redirect url.
-                    // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
-                    // to the correct page after a successful sign in. This way, that url can be set via
-                    // routing file and we don't have to touch here.
-                    const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/dashboard';
+                // Set the redirect url.
+                // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
+                // to the correct page after a successful sign in. This way, that url can be set via
+                // routing file and we don't have to touch here.
+                const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/dashboard';
 
-                    // Navigate to the redirect url
-                    this._router.navigateByUrl(redirectURL);
+                // Navigate to the redirect url
+                this._router.navigateByUrl(redirectURL);
 
-                },
-                (response) => {
+            },
+            error: (err) => {
 
-                    // Re-enable the form
-                    this.signInForm.enable();
+                // Re-enable the form
+                this.signInForm.enable();
 
-                    // Reset the form
-                    this.signInNgForm.resetForm();
+                // Reset the form
+                this.signInNgForm.resetForm();
 
-                    // Set the alert
-                    this.alert = {
-                        type   : 'error',
-                        message: 'Wrong email or password'
-                    };
+                // Set the alert
+                this.alert = {
+                    type   : 'error',
+                    message: 'Wrong email or password'
+                };
 
-                    // Show the alert
-                    this.showAlert = true;
-                }
-            );
+                // Show the alert
+                this.showAlert = true;
+            }
+    });
+
+        // this._loginService.login(this.signInForm.value)
+        // .subscribe({
+        //     next: (response) => {
+        //         if (response === undefined) return;
+        //         debugger;
+        //         let data = response.data;
+        //         if (data.token !== '') {
+        //             const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/dashboard';
+        //             this._router.navigateByUrl(redirectURL);
+        //         }
+        //     },
+        //     error: (err) => {
+        //         console.log(err);
+        //     }
+        //  });
     }
 }
