@@ -2,5 +2,6 @@
 (
 	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
     [Login] VARCHAR(127) NOT NULL, 
-    [Password] VARCHAR(255) NULL
+    [Email] VARCHAR(255) NULL, 
+    [Password] VARCHAR(127) NULL
 )

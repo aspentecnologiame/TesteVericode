@@ -7,6 +7,7 @@ import { LoginModel } from 'app/pages/auth/login/models/login.model';
 import { environment } from '../../../enviroments/environment';
 import { BaseRequestModel } from '../models/request/base.request.model';
 import { BaseResponseModel } from '../models/response/base.response.model';
+import { User } from '../user/user.types';
 
 @Injectable()
 export class AuthService
@@ -42,6 +43,11 @@ export class AuthService
     get accessToken(): string
     {
         return localStorage.getItem('accessToken') ?? '';
+    }
+
+    set currentUser(user: User)
+    {
+        localStorage.setItem('user', JSON.stringify(user));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -117,13 +123,17 @@ export class AuthService
                 this._authenticated = true;
 
                 // Store the user on the user service
-                this._userService.user = {
+                const user = {
                     id    : response.data.id,
-                    name  : `User: ${response.data.login}`,
-                    email : '',
+                    name  : response.data.login,
+                    email : response.data.email,
                     avatar: 'assets/images/avatars/brian-hughes.jpg',
                     status: 'online'
                 };
+
+                this._userService.user = user;
+
+                this.currentUser = user;
 
                 // Return a new observable with the response
                 return of(response);
