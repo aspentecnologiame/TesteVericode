@@ -63,11 +63,11 @@
     <Folder Include="Scripts\Pre-Deployment" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\Tb_User.sql" />
+    <Build Include="dbo\Tables\TbUser.sql" />
     <Build Include="Scripts\Pre-Deployment\Inicializacao.sql" />
     <Build Include="Scripts\Post-Deployment\migracao_da_versao_1_0_0_0.sql" />
     <Build Include="Scripts\Post-Deployment\configuracoes.sql" />
-    <Build Include="dbo\Tables\Tb_Task.sql" />
+    <Build Include="dbo\Tables\TbTask.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />

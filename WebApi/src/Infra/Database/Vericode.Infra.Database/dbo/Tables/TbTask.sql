@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[Tb_Task]
+﻿CREATE TABLE [dbo].[TbTask]
 (
 	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
     [Description] VARCHAR(512) NOT NULL, 

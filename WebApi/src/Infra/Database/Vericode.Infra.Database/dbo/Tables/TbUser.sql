@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[Tb_User]
+﻿CREATE TABLE [dbo].[TbUser]
 (
 	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
     [Login] VARCHAR(127) NOT NULL, 
