@@ -31,7 +31,7 @@ namespace Vericode.Api.Controllers
         public async Task<IActionResult> Post([FromBody] TaskRequest taskRequest)
         {
             var taskEntity = _mapper.Map<TaskEntity>(taskRequest.Data);
-            await _taskService.Save(taskEntity);
+            await _taskService.Enqueue(taskEntity);
             return await Task.FromResult(Ok(taskRequest));
         }
     }

@@ -1,8 +1,9 @@
 ﻿using System;
+using Vericode.Domain.Entities.Base;
 
 namespace Vericode.Domain.Entities
 {
-    public class UserEntity
+    public class UserEntity : BaseEntity
     {
         public Guid Id { get; set; }
         public string Login { get; set; } = string.Empty;

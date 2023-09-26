@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,18 +19,19 @@ namespace Vericode.Service
 
         public async Task Publish<T>(T document)
         {
-            await _rabbitMQRepository.Publish(document);
+            var message = JsonConvert.SerializeObject(document);
+            await _rabbitMQRepository.Publish(message);
         }
 
-        public async Task SatrtConsumeQueue()
+        public async Task SatrtConsumeQueue<T>(Action<T> callBack)
         {
-            _rabbitMQRepository.Subscribe(message => this.HanldeMessage(message));
+            _rabbitMQRepository.Subscribe((message) => 
+            {
+                var result = JsonConvert.DeserializeObject<T>(message);
+                callBack(result); 
+            });
+
             await Task.FromResult(Task.CompletedTask);
-        }
-
-        public void HanldeMessage(string message)
-        {
-            Console.WriteLine(message);
         }
     }
 }

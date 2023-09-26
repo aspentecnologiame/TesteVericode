@@ -8,7 +8,7 @@ namespace Vericode.Domain.Interfaces.Repositories.RabbitMQ
 {
     public interface IRabbitMQRepository : IRepository
     {
-        Task Publish<T>(T document);
+        Task Publish(string message);
         void Subscribe(Action<string> callBack);
     }
 }

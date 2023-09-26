@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Vericode.Domain.Entities;
-using Vericode.Domain.Interfaces.Services.Base;
+using Vericode.Domain.Interfaces.Repositories.SQLServer.Base;
 
-namespace Vericode.Domain.Interfaces.Services
+namespace Vericode.Domain.Interfaces.Repositories.SQLServer
 {
-    public interface ITaskService : IService
+    public interface ITaskRepository : IRepository
     {
-        Task Enqueue(TaskEntity taskEntity);
         Task<bool> Insert(TaskEntity taskEntity);
     }
 }

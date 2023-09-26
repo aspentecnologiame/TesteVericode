@@ -2,7 +2,6 @@
 using RabbitMQ.Client;
 using System.Text;
 using Vericode.Domain.Configurations;
-using Newtonsoft.Json;
 using Vericode.Domain.Interfaces.Repositories.RabbitMQ;
 using System.Threading.Channels;
 
@@ -16,14 +15,13 @@ namespace Vericode.Infra.Data.RabbitMQRepository
         {
             _rabbitMQSettings = rabbitMQSettings;
         }
-        public async Task Publish<T>(T document)
+        public async Task Publish(string message)
         {
             var factory = CreateAMPQConnectionFactory();
 
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                var message = JsonConvert.SerializeObject(document);
                 var body = Encoding.UTF8.GetBytes(message);
 
                 channel.BasicPublish(exchange: _rabbitMQSettings.Exchange,
@@ -32,7 +30,7 @@ namespace Vericode.Infra.Data.RabbitMQRepository
                                      body: body);
             }
 
-            await Task.FromResult(document);
+            await Task.FromResult(Task.CompletedTask);
         }
 
         public void Subscribe(Action<string> callBack)

@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Domain\Vericode.Domain\Vericode.Domain.csproj" />
-    <ProjectReference Include="..\..\Infra\Data\Vericode.Infra.Data.RabbitMQRepository\Vericode.Infra.Data.RabbitMQRepository.csproj" />
+    <ProjectReference Include="..\..\Infra\CrossCutting\Vericode.Infra.CrossCutting\Vericode.Infra.CrossCutting.csproj" />
     <ProjectReference Include="..\..\Service\Vericode.Service\Vericode.Service.csproj" />
   </ItemGroup>
 
