@@ -1,5 +1,22 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NgForm, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { TaskModel } from './models/task.model';
+import { Task, TaskLabelMapping } from './models/enums/task.enum';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { DashboardService } from './dashboard.service';
+
+const ELEMENT_DATA: TaskModel[] = [
+    {id: 1, description: 'Hydrogen', status: 'H', date: '2023-09-22'},
+    {id: 2, description: 'Helium', status: 'He', date: '2023-09-22'},
+    {id: 3, description: 'Lithium', status: 'Li', date: '2023-09-22'},
+    {id: 4, description: 'Beryllium', status: 'Be', date: '2023-09-22'},
+    {id: 5, description: 'Boron', status: 'B', date: '2023-09-22'},
+    {id: 6, description: 'Carbon', status: 'C', date: '2023-09-22'},
+    {id: 7, description: 'Nitrogen', status: 'N', date: '2023-09-22'},
+    {id: 8, description: 'Oxygen', status: 'O', date: '2023-09-22'},
+    {id: 9, description: 'Fluorine', status: 'F', date: '2023-09-22'},
+    {id: 10, description: 'Neon', status: 'Ne', date: '2023-09-22'},
+];
 
 @Component({
     selector     : 'dashboard',
@@ -8,29 +25,59 @@ import { NgForm, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angul
 })
 export class DashboardComponent implements OnInit
 {
-    @ViewChild('supportNgForm') supportNgForm: NgForm;
-    
+    public tasks = Object.values(Task).filter(value => typeof value === 'number');
+    public TaskLabelMapping = TaskLabelMapping;
+
+    displayedColumns: string[] = ['id', 'description', 'status', 'date'];
+    dataSource = ELEMENT_DATA;
+
     alert: any;
-    accountForm: UntypedFormGroup;
+    taskForm: UntypedFormGroup;
+    configForm: UntypedFormGroup;
+
+    id: string = '00000000-0000-0000-0000-000000000000';
+
     /**
      * Constructor
      */
-    constructor(private _formBuilder: UntypedFormBuilder,)
+    constructor(
+        private _formBuilder: UntypedFormBuilder,
+        private _fuseConfirmationService: FuseConfirmationService,
+        private _dashboardService: DashboardService)
     {
     }
 
     ngOnInit(): void
     {
         // Create the support form
-        this.accountForm = this._formBuilder.group({
-            name   : ['', Validators.required],
-            email   : ['', Validators.required],
-            country   : ['', Validators.required],
-            username   : ['', Validators.required],
-            title  : ['', [Validators.required]],
-            company: ['', Validators.required],
-            about: ['', Validators.required],
-            phone: ['', Validators.required]
+        this.taskForm = this._formBuilder.group({
+            id: [this.id],
+            description : ['', Validators.required],
+            status : ['', Validators.required],
+            date : ['', Validators.required]
+        });
+
+        // Build the config form
+        this.configForm = this._formBuilder.group({
+            title      : 'Task Manager',
+            message    : 'You want to save the task? <span class="font-medium">This action cannot be undone!</span>',
+            icon       : this._formBuilder.group({
+                show : true,
+                name : 'heroicons_outline:exclamation',
+                color: 'accent'
+            }),
+            actions    : this._formBuilder.group({
+                confirm: this._formBuilder.group({
+                    show : true,
+                    label: 'Confirm',
+                    color: 'primary'
+                }),
+                cancel : this._formBuilder.group({
+                    show : true,
+                    label: 'Cancel'
+                })
+            }),
+            dismissible: true
         });
     }
 
@@ -44,7 +91,7 @@ export class DashboardComponent implements OnInit
     clearForm(): void
     {
         // Reset the form
-        this.supportNgForm.resetForm();
+        this.taskForm.reset();
     }
 
     /**
@@ -52,21 +99,26 @@ export class DashboardComponent implements OnInit
      */
     sendForm(): void
     {
-        // Send your form here using an http request
-        console.log('Your message has been sent!');
+        // Open the dialog and save the reference of it
+        const dialogRef = this._fuseConfirmationService.open(this.configForm.value);
 
-        // Show a success message (it can also be an error message)
-        // and remove it after 5 seconds
-        this.alert = {
-            type   : 'success',
-            message: 'Your request has been delivered! A member of our support staff will respond as soon as possible.'
-        };
+        // Subscribe to afterClosed from the dialog reference
+        dialogRef.afterClosed().subscribe((result) => {
 
-        setTimeout(() => {
-            this.alert = null;
-        }, 7000);
+            this._dashboardService.save(this.taskForm.value)
+            .subscribe({
+                next: (response) => {
 
-        // Clear the form
-        this.clearForm();
+                    console.log(response);
+
+                    // Clear the form
+                    this.clearForm();
+                },
+                error: (err) => {
+                    console.log(err);
+                }
+            });
+            console.log(result);
+        });  
     }
 }

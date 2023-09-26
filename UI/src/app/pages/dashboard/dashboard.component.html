@@ -1,14 +1,14 @@
 <div class="flex flex-col flex-auto min-w-0 w-full">
 
     <!-- Main -->
-    <div class="flex flex-col flex-auto items-center p-6 sm:p-10">
+    <div class="flex flex-col flex-auto items-center p-6 sm:p-6">
         <div class="flex flex-col w-full">
-            <div class="mt-2 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight">
+            <div class="mt-2 text-4xl sm:text-4xl font-extrabold tracking-tight leading-tight">
                 Task Manager
             </div>
             <!-- Form -->
-            <div class="mt-8 sm:mt-12 p-6 pb-7 sm:p-10 sm:pb-7 shadow rounded-2xl bg-card">
-                <form [formGroup]="accountForm">
+            <div class="mt-8 sm:mt-5 p-6 pb-7 sm:p-10 sm:pb-7 shadow rounded-2xl bg-card">
+                <form [formGroup]="taskForm">
 
                     <!-- Section -->
                     <div class="w-full">
@@ -16,148 +16,52 @@
                         <div class="text-secondary">Following information is publicly displayed, be careful!</div>
                     </div>
                     <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-                        <!-- Name -->
+                        <!-- Description -->
                         <div class="sm:col-span-4">
                             <mat-form-field
                                 class="w-full"
                                 [subscriptSizing]="'dynamic'">
-                                <mat-label>Name</mat-label>
+                                <mat-label>Description</mat-label>
                                 <mat-icon
                                     class="icon-size-5"
-                                    [svgIcon]="'heroicons_solid:user'"
+                                    [svgIcon]="'heroicons_solid:annotation'"
                                     matPrefix></mat-icon>
                                 <input
-                                    [formControlName]="'name'"
+                                    [formControlName]="'description'"
                                     matInput>
                             </mat-form-field>
                         </div>
-                        <!-- Username -->
-                        <div class="sm:col-span-4">
-                            <mat-form-field
-                                class="fuse-mat-emphasized-affix w-full"
-                                [subscriptSizing]="'dynamic'">
-                                <mat-label>Username</mat-label>
-                                <div
-                                    class="text-secondary"
-                                    matPrefix>
-                                    fusetheme.com/
-                                </div>
-                                <input
-                                    [formControlName]="'username'"
-                                    matInput>
-                            </mat-form-field>
-                        </div>
-                        <!-- Title -->
+                        <!-- Status -->
                         <div class="sm:col-span-2">
                             <mat-form-field
                                 class="w-full"
                                 [subscriptSizing]="'dynamic'">
-                                <mat-label>Title</mat-label>
+                                <mat-label>Status</mat-label>
                                 <mat-icon
                                     class="icon-size-5"
-                                    [svgIcon]="'heroicons_solid:briefcase'"
+                                    [svgIcon]="'heroicons_solid:menu'"
                                     matPrefix></mat-icon>
-                                <input
-                                    [formControlName]="'title'"
-                                    matInput>
+                                    <mat-select [formControlName]="'status'">
+                                        <mat-option *ngFor="let task of tasks" [value]="task">
+                                            {{TaskLabelMapping[task]}}
+                                        </mat-option>
+                                    </mat-select>
                             </mat-form-field>
                         </div>
-                        <!-- Company -->
+                        <!-- Date -->
                         <div class="sm:col-span-2">
-                            <mat-form-field
-                                class="w-full"
-                                [subscriptSizing]="'dynamic'">
-                                <mat-label>Company</mat-label>
-                                <mat-icon
-                                    class="icon-size-5"
-                                    [svgIcon]="'heroicons_solid:office-building'"
-                                    matPrefix></mat-icon>
-                                <input
-                                    [formControlName]="'company'"
-                                    matInput>
-                            </mat-form-field>
-                        </div>
-                        <!-- About -->
-                        <div class="sm:col-span-4">
-                            <mat-form-field
-                                class="w-full"
-                                [subscriptSizing]="'dynamic'">
-                                <mat-label>About</mat-label>
-                                <textarea
-                                    matInput
-                                    [formControlName]="'about'"
-                                    cdkTextareaAutosize
-                                    [cdkAutosizeMinRows]="5"></textarea>
-                            </mat-form-field>
-                            <div class="mt-1 text-md text-hint">Brief description for your profile. Basic HTML and Emoji are allowed.</div>
+                            <mat-form-field class="w-full">
+                                <mat-label>Date Event</mat-label>
+                                <input [formControlName]="'date'" matInput [matDatepicker]="picker">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                              </mat-form-field>
                         </div>
                     </div>
-            
+
                     <!-- Divider -->
-                    <div class="my-10 border-t"></div>
-            
-                    <!-- Section -->
-                    <div class="w-full">
-                        <div class="text-xl">Personal Information</div>
-                        <div class="text-secondary">Communication details in case we want to connect with you. These will be kept private.</div>
-                    </div>
-                    <div class="grid sm:grid-cols-4 gap-6 w-full mt-8">
-                        <!-- Email -->
-                        <div class="sm:col-span-2">
-                            <mat-form-field
-                                class="w-full"
-                                [subscriptSizing]="'dynamic'">
-                                <mat-label>Email</mat-label>
-                                <mat-icon
-                                    class="icon-size-5"
-                                    [svgIcon]="'heroicons_solid:mail'"
-                                    matPrefix></mat-icon>
-                                <input
-                                    [formControlName]="'email'"
-                                    matInput>
-                            </mat-form-field>
-                        </div>
-                        <!-- Phone -->
-                        <div class="sm:col-span-2">
-                            <mat-form-field
-                                class="w-full"
-                                [subscriptSizing]="'dynamic'">
-                                <mat-label>Phone</mat-label>
-                                <mat-icon
-                                    class="icon-size-5"
-                                    [svgIcon]="'heroicons_solid:phone'"
-                                    matPrefix></mat-icon>
-                                <input
-                                    [formControlName]="'phone'"
-                                    matInput>
-                            </mat-form-field>
-                        </div>
-                        <!-- Country -->
-                        <div class="sm:col-span-2">
-                            <mat-form-field
-                                class="w-full"
-                                [subscriptSizing]="'dynamic'">
-                                <mat-label>Country</mat-label>
-                                <mat-icon
-                                    class="icon-size-5"
-                                    [svgIcon]="'heroicons_solid:location-marker'"
-                                    matPrefix></mat-icon>
-                                <mat-select [formControlName]="'country'">
-                                    <mat-option [value]="'usa'">United States</mat-option>
-                                    <mat-option [value]="'canada'">Canada</mat-option>
-                                    <mat-option [value]="'mexico'">Mexico</mat-option>
-                                    <mat-option [value]="'france'">France</mat-option>
-                                    <mat-option [value]="'germany'">Germany</mat-option>
-                                    <mat-option [value]="'italy'">Italy</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        
-                    </div>
-            
-                    <!-- Divider -->
-                    <div class="mt-11 mb-10 border-t"></div>
-            
+                    <div class="my-5"></div>
+
                     <!-- Actions -->
                     <div class="flex items-center justify-end">
                         <button
@@ -169,9 +73,55 @@
                             class="ml-4"
                             mat-flat-button
                             type="button"
-                            [color]="'primary'">Save
+                            (click)="sendForm()"
+                            [color]="'primary'">
+                            Save  
                         </button>
                     </div>
+            
+                    <!-- Divider -->
+                    <div class="my-5 border-t"></div>
+            
+                    <!-- Section -->
+                    <div class="w-full">
+                        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                            <!--- Note that these columns can be defined in any order.
+                                  The actual rendered columns are set as a property on the row definition" -->
+                          
+                            <!-- Id Column -->
+                            <ng-container matColumnDef="id">
+                              <th mat-header-cell *matHeaderCellDef> No. </th>
+                              <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                            </ng-container>
+                          
+                            <!-- Description Column -->
+                            <ng-container matColumnDef="description">
+                              <th mat-header-cell *matHeaderCellDef> Description </th>
+                              <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                            </ng-container>
+                          
+                            <!-- Status Column -->
+                            <ng-container matColumnDef="status">
+                              <th mat-header-cell *matHeaderCellDef> Status </th>
+                              <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                            </ng-container>
+                          
+                            <!-- Date Column -->
+                            <ng-container matColumnDef="date">
+                              <th mat-header-cell *matHeaderCellDef> Date </th>
+                              <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                            </ng-container>
+                          
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                          </table>
+                    </div>
+                                
+                    <!-- Divider -->
+                    <div class="mt-11 mb-10 border-t"></div>
+            
+                    
                 </form>
             </div>
         </div>

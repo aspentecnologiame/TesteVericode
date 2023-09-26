@@ -8,6 +8,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
     declarations: [
@@ -20,7 +23,10 @@ import { MatSelectModule } from '@angular/material/select';
         MatIconModule,
         MatButtonModule,
         MatInputModule,
-        MatSelectModule
+        MatSelectModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatTableModule
     ]
 })
 export class DashboardModule

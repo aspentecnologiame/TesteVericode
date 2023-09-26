@@ -106,7 +106,7 @@ export class LoginComponent implements OnInit
                 // Show the alert
                 this.showAlert = true;
             }
-    });
+        });
 
         // this._loginService.login(this.signInForm.value)
         // .subscribe({
