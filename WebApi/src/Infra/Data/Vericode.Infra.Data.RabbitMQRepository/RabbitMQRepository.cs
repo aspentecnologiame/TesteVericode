@@ -4,6 +4,7 @@ using System.Text;
 using Vericode.Domain.Configurations;
 using Newtonsoft.Json;
 using Vericode.Domain.Interfaces.Repositories.RabbitMQ;
+using System.Threading.Channels;
 
 namespace Vericode.Infra.Data.RabbitMQRepository
 {
@@ -36,13 +37,15 @@ namespace Vericode.Infra.Data.RabbitMQRepository
 
         public void Subscribe(Action<string> callBack)
         {
-            var factory = CreateHostConnectionFactory();
+            var durable = true;
+            var exclusive = false;
+            var autoDelete = false;
+
+            var factory = CreateAMPQConnectionFactory();
             var connection = factory.CreateConnection();
             var channel = connection.CreateModel();
 
-            channel.QueueBind(queue: _rabbitMQSettings.QueueName,
-                                  exchange: _rabbitMQSettings.Exchange,
-                                  routingKey: _rabbitMQSettings.RoutingKey);
+            channel.QueueDeclare(_rabbitMQSettings.QueueName, durable, exclusive, autoDelete, null);
 
             var consumer = new EventingBasicConsumer(channel);
 

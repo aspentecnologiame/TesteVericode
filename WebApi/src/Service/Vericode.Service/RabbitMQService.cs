@@ -20,5 +20,16 @@ namespace Vericode.Service
         {
             await _rabbitMQRepository.Publish(document);
         }
+
+        public async Task SatrtConsumeQueue()
+        {
+            _rabbitMQRepository.Subscribe(message => this.HanldeMessage(message));
+            await Task.FromResult(Task.CompletedTask);
+        }
+
+        public void HanldeMessage(string message)
+        {
+            Console.WriteLine(message);
+        }
     }
 }
