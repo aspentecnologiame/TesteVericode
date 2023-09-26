@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Vericode.Domain.Entities;
-using Vericode.Domain.Interfaces.Repositories;
+using Vericode.Domain.Interfaces.Repositories.SQLServer;
 using Vericode.Domain.Interfaces.Services;
 
 namespace Vericode.Service

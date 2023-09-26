@@ -1,11 +1,11 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Vericode.Api;
 using Vericode.Domain.Configurations;
 using Vericode.Infra.CrossCutting;
 using Vericode.Api.Security.Configurations;
 using Vericode.Api.Security;
+using Vericode.Api.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +35,9 @@ builder.Services.AddSingleton(cryptographySettings);
 
 var authenticationSettings = builder.Configuration.GetSection("AuthenticationSettings").Get<AuthenticationSettings>();
 builder.Services.AddSingleton(authenticationSettings);
+
+var rabbitMQSettings = builder.Configuration.GetSection("RabbitMQSettings").Get<RabbitMQSettings>();
+builder.Services.AddSingleton(rabbitMQSettings);
 
 var jwtBearerToken = new JwtBearerToken(authenticationSettings);
 builder.Services.AddSingleton(jwtBearerToken);

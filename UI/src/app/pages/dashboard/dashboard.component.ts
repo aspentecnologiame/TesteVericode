@@ -91,7 +91,8 @@ export class DashboardComponent implements OnInit
     clearForm(): void
     {
         // Reset the form
-        this.taskForm.reset();
+        //this.taskForm.reset();
+        //this.taskForm.controls['id'].setValue(this.id);
     }
 
     /**

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Vericode.Infra.Data.Repository.Login
+namespace Vericode.Infra.Data.SQLRepository.Login
 {
     public static class LoginRepositoryCommands
     {

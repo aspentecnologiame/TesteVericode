@@ -4,10 +4,10 @@ using System.Threading;
 using Dapper;
 using System.Threading.Tasks;
 using Vericode.Domain.Entities;
-using Vericode.Domain.Interfaces.Repositories;
-using Vericode.Infra.Data.Repository.Base;
+using Vericode.Infra.Data.SQLRepository.Base;
+using Vericode.Domain.Interfaces.Repositories.SQLServer;
 
-namespace Vericode.Infra.Data.Repository.Login
+namespace Vericode.Infra.Data.SQLRepository.Login
 {
     public class LoginRepository : BaseRepository, ILoginRepository
     {

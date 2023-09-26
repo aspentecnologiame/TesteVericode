@@ -5,7 +5,7 @@ using System.Text;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace Vericode.Infra.Data.Repository.Base
+namespace Vericode.Infra.Data.SQLRepository.Base
 {
     public abstract class BaseRepository
     {

@@ -1,16 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
-using System.Text;
-using Vericode.Domain.Interfaces.Repositories.Base;
+using Vericode.Domain.Interfaces.Repositories.SQLServer.Base;
 
-namespace Vericode.Infra.Data.Repository.RepositoryResolver
+namespace Vericode.Infra.Data.SQLRepository.RepositoryResolver
 {
     public static class DependencyResolver
     {
-        public static IServiceCollection RegisterRepositoriesDependencies(this IServiceCollection services)
+        public static IServiceCollection RegisterSQLRepositoriesDependencies(this IServiceCollection services)
         {
             typeof(DependencyResolver).Assembly.GetTypes()
                 .Where(t => t.IsClass && !t.IsAbstract && typeof(IRepository).IsAssignableFrom(t))
