@@ -17,10 +17,10 @@ namespace Vericode.Infra.Data.SQLRepository.Task
         {
         }
 
-        public async Task<bool> Insert(TaskEntity taskEntity)
+        public async Task<bool> Save(TaskEntity taskEntity)
         {
             using var connection = DatabaseConnection();
-            return await connection.ExecuteAsync(TaskRepositoryCommands.Insert, taskEntity) > 0;
+            return await connection.ExecuteAsync(TaskRepositoryCommands.Save, taskEntity) > 0;
         }
     }
 }

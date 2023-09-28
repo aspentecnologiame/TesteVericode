@@ -21,6 +21,6 @@ namespace Vericode.Service
 
         public async Task Enqueue(TaskEntity taskEntity) => await _rabbitmqService.Publish(taskEntity);
 
-        public async Task<bool> Insert(TaskEntity taskEntity) => await _taskRepository.Insert(taskEntity);
+        public async Task<bool> Save(TaskEntity taskEntity) => await _taskRepository.Save(taskEntity);
     }
 }

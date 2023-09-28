@@ -10,6 +10,6 @@ namespace Vericode.Domain.Interfaces.Services
     public interface ITaskService : IService
     {
         Task Enqueue(TaskEntity taskEntity);
-        Task<bool> Insert(TaskEntity taskEntity);
+        Task<bool> Save(TaskEntity taskEntity);
     }
 }

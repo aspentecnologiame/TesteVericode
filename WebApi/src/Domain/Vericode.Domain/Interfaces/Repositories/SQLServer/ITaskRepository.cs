@@ -9,6 +9,6 @@ namespace Vericode.Domain.Interfaces.Repositories.SQLServer
 {
     public interface ITaskRepository : IRepository
     {
-        Task<bool> Insert(TaskEntity taskEntity);
+        Task<bool> Save(TaskEntity taskEntity);
     }
 }

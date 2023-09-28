@@ -24,7 +24,7 @@ namespace Vericode.Worker.Jobs
         {
             await _rabbitMQService.SatrtConsumeQueue<TaskEntity>(async (taskEntity) => { 
                 taskEntity.Id = taskEntity.Id == Guid.Empty ? Guid.NewGuid() : taskEntity.Id;
-                await _taskService.Insert(taskEntity);
+                await _taskService.Save(taskEntity);
             });
         }
     }
