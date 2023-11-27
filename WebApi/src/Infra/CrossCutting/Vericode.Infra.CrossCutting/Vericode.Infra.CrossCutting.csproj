@@ -13,6 +13,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\Domain\Vericode.Domain\Vericode.Domain.csproj" />
 	  <ProjectReference Include="..\..\..\Service\Vericode.Service\Vericode.Service.csproj" />
+	  <ProjectReference Include="..\..\..\Worker\Vericode.Worker\Vericode.Worker.csproj" />
 	  <ProjectReference Include="..\..\Data\Vericode.Infra.Data.RabbitMQRepository\Vericode.Infra.Data.RabbitMQRepository.csproj" />
 	  <ProjectReference Include="..\..\Data\Vericode.Infra.Data.SQLRepository\Vericode.Infra.Data.SQLRepository.csproj" />
 	</ItemGroup>

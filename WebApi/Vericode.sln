@@ -31,9 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vericode.Infra.CrossCutting
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vericode.Infra.Data.SQLRepository", "src\Infra\Data\Vericode.Infra.Data.SQLRepository\Vericode.Infra.Data.SQLRepository.csproj", "{E0A10BA5-DDAB-42A2-B8B4-4455F17BFCD9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vericode.Worker", "src\Worker\Vericode.Worker\Vericode.Worker.csproj", "{3D6B9C2D-9192-4105-A274-C3E0FD44C552}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vericode.Infra.Data.RabbitMQRepository", "src\Infra\Data\Vericode.Infra.Data.RabbitMQRepository\Vericode.Infra.Data.RabbitMQRepository.csproj", "{0631269B-F21B-424C-B6A5-A6731886ADBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vericode.Infra.Data.RabbitMQRepository", "src\Infra\Data\Vericode.Infra.Data.RabbitMQRepository\Vericode.Infra.Data.RabbitMQRepository.csproj", "{0631269B-F21B-424C-B6A5-A6731886ADBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vericode.Worker", "src\Worker\Vericode.Worker\Vericode.Worker.csproj", "{36C44DED-3EBE-4EB1-B817-7D5E912D5CA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,14 +67,14 @@ Global
 		{E0A10BA5-DDAB-42A2-B8B4-4455F17BFCD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0A10BA5-DDAB-42A2-B8B4-4455F17BFCD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0A10BA5-DDAB-42A2-B8B4-4455F17BFCD9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D6B9C2D-9192-4105-A274-C3E0FD44C552}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D6B9C2D-9192-4105-A274-C3E0FD44C552}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D6B9C2D-9192-4105-A274-C3E0FD44C552}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D6B9C2D-9192-4105-A274-C3E0FD44C552}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0631269B-F21B-424C-B6A5-A6731886ADBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0631269B-F21B-424C-B6A5-A6731886ADBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0631269B-F21B-424C-B6A5-A6731886ADBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0631269B-F21B-424C-B6A5-A6731886ADBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36C44DED-3EBE-4EB1-B817-7D5E912D5CA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36C44DED-3EBE-4EB1-B817-7D5E912D5CA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36C44DED-3EBE-4EB1-B817-7D5E912D5CA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36C44DED-3EBE-4EB1-B817-7D5E912D5CA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,8 +89,8 @@ Global
 		{5EBB6950-D4E2-4E46-98F8-5A2C9CB78029} = {A46517ED-44D6-4184-8EF3-0224B9994543}
 		{C62B2B31-705F-44DD-9FD5-94F3CE109F7B} = {64ED58ED-3B60-4E30-B0FE-7DB568B227A8}
 		{E0A10BA5-DDAB-42A2-B8B4-4455F17BFCD9} = {20070E92-DCE0-4784-A067-CC5EA4A22C79}
-		{3D6B9C2D-9192-4105-A274-C3E0FD44C552} = {6925B827-5381-49EE-B786-6C7CF160CE29}
 		{0631269B-F21B-424C-B6A5-A6731886ADBF} = {20070E92-DCE0-4784-A067-CC5EA4A22C79}
+		{36C44DED-3EBE-4EB1-B817-7D5E912D5CA3} = {6925B827-5381-49EE-B786-6C7CF160CE29}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FAD2CFB7-F979-498E-BDA3-DF8D86AE7104}

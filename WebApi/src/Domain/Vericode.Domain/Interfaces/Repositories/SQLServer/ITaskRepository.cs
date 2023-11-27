@@ -9,6 +9,7 @@ namespace Vericode.Domain.Interfaces.Repositories.SQLServer
 {
     public interface ITaskRepository : IRepository
     {
-        Task<bool> Save(TaskEntity taskEntity);
+        Task<IEnumerable<TaskEntity>> GetAll();
+        Task<IEnumerable<TaskEntity>> Save(TaskEntity taskEntity);
     }
 }

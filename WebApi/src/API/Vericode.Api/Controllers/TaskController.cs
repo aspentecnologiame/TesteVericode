@@ -5,6 +5,10 @@ using Vericode.Api.Models.Request;
 using Vericode.Api.Security.Attributes;
 using Vericode.Domain.Entities;
 using Vericode.Domain.Interfaces.Services;
+using Microsoft.AspNetCore.SignalR;
+using Vericode.Api.Models.DTO;
+using Vericode.Api.Models.Response;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Vericode.Api.Controllers
 {
@@ -13,6 +17,7 @@ namespace Vericode.Api.Controllers
     [AuthorizeBearerAttribute(Roles = "allVerbs", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class TaskController : ControllerBase
     {
+        
         private readonly ITaskService _taskService;
         private readonly IMapper _mapper;
         public TaskController(ITaskService taskService, IMapper mapper)
@@ -24,7 +29,9 @@ namespace Vericode.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return await Task.FromResult(Ok());
+            var taskEntityList = await _taskService.GetAll();
+            var taskEntityListDTO = _mapper.Map<IEnumerable<TaskDTO>>(taskEntityList);
+            return await Task.FromResult(Ok(new TaskListResponse(taskEntityListDTO)));
         }
 
         [HttpPost]
@@ -32,7 +39,8 @@ namespace Vericode.Api.Controllers
         {
             var taskEntity = _mapper.Map<TaskEntity>(taskRequest.Data);
             await _taskService.Enqueue(taskEntity);
-            return await Task.FromResult(Ok(taskRequest));
+            var response = _mapper.Map<TaskDTO>(taskEntity);
+            return await Task.FromResult(Ok(new TaskResponse(response)));
         }
     }
 }

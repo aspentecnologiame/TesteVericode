@@ -15,7 +15,7 @@ namespace Vericode.Service.ServiceResolver
                     t.GetInterfaces()
                         .Where(i => typeof(IService).IsAssignableFrom(i))
                         .ToList()
-                        .ForEach(i => services.AddScoped(i, t))
+                        .ForEach(i => services.AddSingleton(i, t))
                 );
 
             return services;

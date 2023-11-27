@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using System;
-using System.Threading.Tasks;
 using Vericode.Domain.Entities;
 using Vericode.Domain.Interfaces.Services;
-using Vericode.Worker.Hubs;
+using Vericode.Service.Hubs;
 using Vericode.Worker.Jobs.interfaces;
 
 namespace Vericode.Worker.Jobs
@@ -12,9 +10,9 @@ namespace Vericode.Worker.Jobs
     {
         private readonly IRabbitMQService _rabbitMQService;
         private readonly ITaskService _taskService;
-        private readonly IHubContext<TaskHub> _taskHub;
+        private readonly IHubContext<TesteHub> _taskHub;
 
-        public RabbitConsumerJob(IRabbitMQService rabbitMQService, ITaskService taskService, IHubContext<TaskHub> taskHub)
+        public RabbitConsumerJob(IRabbitMQService rabbitMQService, ITaskService taskService, IHubContext<TesteHub> taskHub)
         {
             _rabbitMQService = rabbitMQService;
             _taskService = taskService;

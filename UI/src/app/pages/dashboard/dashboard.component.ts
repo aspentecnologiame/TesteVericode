@@ -79,6 +79,17 @@ export class DashboardComponent implements OnInit
             }),
             dismissible: true
         });
+
+        this._dashboardService.startHubTaskConnection();
+        this._dashboardService.addTransferTaskDataListener();
+        const teste = this._dashboardService.getAll().subscribe({
+            next: (response) => {
+                this.dataSource = response.data;
+            },
+            error: (err) => {
+                console.log(err);
+            }
+    });
     }
 
     // -----------------------------------------------------------------------------------------------------

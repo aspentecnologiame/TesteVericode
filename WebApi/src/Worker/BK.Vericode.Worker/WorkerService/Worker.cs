@@ -2,11 +2,14 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using Vericode.Worker.WorkerResolver;
 using Vericode.Worker.Jobs.interfaces;
-using System.Threading;
 
 namespace Vericode.Worker.WorkerService
 {
@@ -24,6 +27,19 @@ namespace Vericode.Worker.WorkerService
             _rabbitConsumerJob = rabbitConsumerJob;
             Configuration = configuration;
         } 
+
+        public static void ConfigureService(IServiceCollection serviceCollection)
+        {
+            Configuration = new ConfigurationBuilder()
+                .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location))
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            serviceCollection.AddLogging(loggingBuilder => loggingBuilder.SetMinimumLevel(LogLevel.Trace));
+
+            DependencyResolver.RegisterWorkerDependencies(serviceCollection, Configuration);
+            ServiceProvider = serviceCollection.BuildServiceProvider();
+        }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {

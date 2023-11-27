@@ -15,7 +15,7 @@ namespace Vericode.Infra.Data.RabbitMQRepository.RepositoryResolver
                     t.GetInterfaces()
                         .Where(i => typeof(IRepository).IsAssignableFrom(i))
                         .ToList()
-                        .ForEach(i => services.AddScoped(i, t))
+                        .ForEach(i => services.AddSingleton(i, t))
                 );
 
             return services;

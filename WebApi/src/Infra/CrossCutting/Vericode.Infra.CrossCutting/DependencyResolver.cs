@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Vericode.Domain.Interfaces.Services.Base;
 using Vericode.Infra.Data.RabbitMQRepository.RepositoryResolver;
 using Vericode.Infra.Data.SQLRepository.RepositoryResolver;
 using Vericode.Service.ServiceResolver;
+using Vericode.Worker.WorkerResolver;
 
 namespace Vericode.Infra.CrossCutting
 {
@@ -12,7 +14,9 @@ namespace Vericode.Infra.CrossCutting
         {
             services.RegisterServicesDependencies();
             services.RegisterSQLRepositoriesDependencies();
-            services.RegisterRabbitMQRepositoriesDependencies();    
+            services.RegisterRabbitMQRepositoriesDependencies();
+            services.RegisterWorkerDependencies();
+
             return services;
         }
     }

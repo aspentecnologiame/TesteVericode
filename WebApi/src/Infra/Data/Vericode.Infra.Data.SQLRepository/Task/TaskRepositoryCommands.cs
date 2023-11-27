@@ -6,6 +6,8 @@ namespace Vericode.Infra.Data.SQLRepository.Task
 {
     public static class TaskRepositoryCommands
     {
+		public const string GetAll = @"SELECT [Id], [Description], [Status], [Date], [Created], [Updated] FROM TbTask";
+
         public const string Save = @"MERGE INTO [TbTask] AS Target
 				USING
 				(
@@ -40,6 +42,7 @@ namespace Vericode.Infra.Data.SQLRepository.Task
 						[Status],
 						[Date],
 						GETDATE(),
-						NULL);";
+						NULL);
+				SELECT [Id], [Description], [Status], [Date], [Created], [Updated] FROM [TbTask];";
     }
 }

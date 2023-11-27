@@ -1,11 +1,9 @@
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Vericode.Domain.Configurations;
 using Vericode.Infra.CrossCutting;
 using Vericode.Api.Security.Configurations;
-using Vericode.Api.Security;
-using Vericode.Api.Mapping;
+using Vericode.Api.AppResolver;
+using Microsoft.Extensions.Logging.EventLog;
+using Vericode.Worker.Hubs;
+using Vericode.Worker.WorkerResolver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,38 +13,21 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfiguration();
-builder.Services.AddCors();
+builder.Services.AddSignalR();
+
+builder.Host.ConfigureLogging(loggingBuilder =>
+{
+    loggingBuilder.ClearProviders();
+    loggingBuilder.AddDebug();
+    loggingBuilder.AddConsole();
+    loggingBuilder.AddEventLog();
+    loggingBuilder.AddFilter<EventLogLoggerProvider>(level => level != LogLevel.None);
+});
 
 ConfigurationManager configuration = builder.Configuration;
 
-builder.Services.AddMvc(config =>
-{
-    var policy = new AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser()
-        .Build();
-
-    config.Filters.Add(new AuthorizeFilter(policy));
-});
-
-builder.Services.AddJwtBearerAuthentication(configuration);
-
-var cryptographySettings = builder.Configuration.GetSection("CryptographySettings").Get<CryptographySettings>();
-builder.Services.AddSingleton(cryptographySettings);
-
-var authenticationSettings = builder.Configuration.GetSection("AuthenticationSettings").Get<AuthenticationSettings>();
-builder.Services.AddSingleton(authenticationSettings);
-
-var rabbitMQSettings = builder.Configuration.GetSection("RabbitMQSettings").Get<RabbitMQSettings>();
-builder.Services.AddSingleton(rabbitMQSettings);
-
-var jwtBearerToken = new JwtBearerToken(authenticationSettings);
-builder.Services.AddSingleton(jwtBearerToken);
-
+builder.Services.RegisterAppDependencies(configuration);
 builder.Services.RegisterCrossCuttingDependencies(configuration);
-
-var mappingConfig = new MapperConfiguration(mc => mc.AddProfile(new MappingProfile()));
-IMapper mapper = mappingConfig.CreateMapper();
-builder.Services.AddSingleton(mapper);
 
 var app = builder.Build();
 
@@ -62,11 +43,14 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseAuthentication();
 
-app.UseCors(x => x.SetIsOriginAllowed(origin => true)
-.AllowAnyHeader()
-.AllowAnyMethod()
-.AllowCredentials());
+app.UseCors("CorsPolicy");
+
+//app.UseCors(x => x.SetIsOriginAllowed(origin => true)
+//.AllowAnyHeader()
+//.AllowAnyMethod()
+//.AllowCredentials());
 
 app.MapControllers();
+app.MapHub<TaskHub>("/hub/task");
 
 app.Run();
